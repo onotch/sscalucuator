@@ -7,7 +7,8 @@ $(document).ready(function() {
 		15, 20, 25, 30, 40, 50, 60, 90, 120, 150, 180, 240, 300, 360, 420, 480, 540, 600];
 	var ND_VALUES = [2, 4, 8, 16, 32, 64, 100, 128, 200, 256, 400, 500, 1000, 2000, 10000, 32000, 100000, 1000000];
 
-	var UNIT_MIN = 'min',
+	var UNIT_HR = 'hr',
+		UNIT_MIN = 'min',
 		UNIT_SEC = 'sec';
 
 	var ID_SS = 0,
@@ -275,7 +276,7 @@ $(document).ready(function() {
 		if (sec < 0.3) {
 			sec = Math.round(1 / sec);
 			return '1/' + sec + UNIT_SEC;
-		} else if (sec >= 60) {
+		} else if (sec >= 60 && sec < 3600) {
 			var m = Math.floor(sec / 60);
 			var s = Math.round(sec % 60);
 			if (s == 0) {
@@ -284,6 +285,21 @@ $(document).ready(function() {
 				s = ' ' + s + UNIT_SEC;
 			}
 			return m + UNIT_MIN + s;
+		} else if (sec >= 3600) {
+			var h = Math.floor(sec / 3600);
+			var m = Math.floor((sec - 3600 * h) / 60);
+			var s = Math.round(sec % 60);
+			if (m == 0) {
+				m = '';
+			} else {
+				m = ' ' + m + UNIT_MIN;
+			}
+			if (s == 0) {
+				s = '';
+			} else {
+				s = ' ' + s + UNIT_SEC;
+			}
+			return h + UNIT_HR + m + s;
 		}
 		return sec.toFixed(1) + UNIT_SEC;
 	}
